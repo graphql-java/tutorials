@@ -1,4 +1,5 @@
 type Query {
+    hello: String
     bookById(id: ID): Book
 }
 

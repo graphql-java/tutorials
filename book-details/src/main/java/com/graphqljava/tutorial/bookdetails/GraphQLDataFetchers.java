@@ -60,4 +60,10 @@ public class GraphQLDataFetchers {
                     .orElse(null);
         };
     }
+
+    public DataFetcher helloDataFetcher() {
+        return dataFetchingEnvironment -> {
+            return "world";
+        };
+    }
 }
