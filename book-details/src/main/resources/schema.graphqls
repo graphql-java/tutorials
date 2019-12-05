@@ -1,11 +1,20 @@
 type Query {
     hello: String
     bookById(id: ID): Book
+    movieById(id: ID): Movie
+    everything: [Thing]
+}
+
+union Thing = Movie | Book
+
+type Movie {
+    id: ID
+    name: String
 }
 
 type Book {
     id: ID
-    name: String
+    title: String
     pageCount: Int
     author: Author
 }
