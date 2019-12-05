@@ -2,10 +2,10 @@ type Query {
     hello: String
     bookById(id: ID): Book
     movieById(id: ID): Movie
-    everything: [Thing]
+    items: [Item]
 }
 
-union Thing = Movie | Book
+union Item = Movie | Book
 
 type Movie {
     id: ID

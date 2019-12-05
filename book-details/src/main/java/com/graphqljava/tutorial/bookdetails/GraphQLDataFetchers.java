@@ -93,7 +93,7 @@ public class GraphQLDataFetchers {
         };
     }
 
-    public DataFetcher everythingDataFetcher() {
+    public DataFetcher itemsDataFetcher() {
         return env -> {
             List<Object> result = new ArrayList<>();
             result.addAll(movies);
@@ -102,7 +102,7 @@ public class GraphQLDataFetchers {
         };
     }
 
-    public TypeResolver everythingTypeResolver = env -> {
+    public TypeResolver itemsTypeResolver = env -> {
         Map<String, Object> bookOrMovie = env.getObject();
         String id = (String) bookOrMovie.get("id");
         if (id.startsWith("movie")) {
