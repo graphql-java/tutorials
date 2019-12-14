@@ -1,7 +1,5 @@
 package com.graphqljava.tutorial.bookdetails;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -11,10 +9,12 @@ import graphql.schema.idl.TypeDefinitionRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StreamUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 
@@ -29,8 +29,10 @@ public class GraphQLProvider {
 
     @PostConstruct
     public void init() throws IOException {
-        URL url = Resources.getResource("schema.graphqls");
-        String sdl = Resources.toString(url, Charsets.UTF_8);
+        final String sdl;
+        try (InputStream is = getClass().getResourceAsStream("/schema.graphqls")) {
+            sdl = StreamUtils.copyToString(is, StandardCharsets.UTF_8);
+        }
         GraphQLSchema graphQLSchema = buildSchema(sdl);
         this.graphQL = GraphQL.newGraphQL(graphQLSchema).build();
     }
