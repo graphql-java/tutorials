@@ -24,16 +24,21 @@ public class GraphQLProvider {
 
     @Bean
     public GraphQL graphQL() {
-        InputStream sdl = ClassLoader.getSystemResourceAsStream("schema.graphqls");
-        GraphQLSchema graphQLSchema = buildSchema(sdl);
+        GraphQLSchema graphQLSchema = buildSchema();
         return GraphQL.newGraphQL(graphQLSchema).build();
     }
 
-    private GraphQLSchema buildSchema(InputStream sdl) {
-        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(sdl);
+    private GraphQLSchema buildSchema() {
+        TypeDefinitionRegistry typeRegistry = buildTypeDefinitionRegistry();
         RuntimeWiring runtimeWiring = buildWiring();
+
         SchemaGenerator schemaGenerator = new SchemaGenerator();
         return schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);
+    }
+
+    private TypeDefinitionRegistry buildTypeDefinitionRegistry(){
+        InputStream sdl = ClassLoader.getSystemResourceAsStream("schema.graphqls");
+        return  new SchemaParser().parse(sdl);
     }
 
     private RuntimeWiring buildWiring() {
