@@ -6,7 +6,8 @@ import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class BookController {
+class BookController {
+
     @QueryMapping
     public Book bookById(@Argument String id) {
         return Book.getById(id);
@@ -14,6 +15,7 @@ public class BookController {
 
     @SchemaMapping
     public Author author(Book book) {
-        return Author.getById(book.getAuthorId());
+        return Author.getById(book.authorId());
     }
+
 }
